@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MobilController;
+use App\Http\Controllers\TempatController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,23 +16,24 @@ use App\Http\Controllers\MobilController;
 |
 */
 
-// Route::middleware('auth:sanctum')->get('/user', function(Request $request){
-//     return $request->user();
-// });
+Route::middleware('auth:sanctum')->get('/user', function(Request $request){
+    return $request->user();
+});
 
 // public route
 
-Route::post('/register',[AuthController::class, 'register']);
-Route::post('/login',[AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
 
-Route::get('/mobil',[MobilController::class, 'index']);
-// Route::get('/Books/{id}',[BookController::class, 'show']);
-// Route::get('/Authors',[AuthorController::class, 'index']);
-// Route::get('/Authors/{id}',[AuthorController::class, 'show']);
+Route::get('/mobil', [MobilController::class, 'index']);
+Route::get('/tempat', [TempatController::class, 'index']);
 
-Route::middleware('auth:scantum')->group(function(){
-    Route::resource('mobils', MobilController::class)->except('create','edit','show','index');
+
+
+Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
-    // Route::resource('authors', AuthorController::class)->except('create','edit','show','index');
-
+    Route::resource('/mobils', MobilController::class)->except('create', 'edit', 'show', 'index');
+    Route::get('/mobil/{id}', [MobilController::class, 'show']);
+    Route::resource('/tempats', TempatController::class)->except('create', 'edit', 'show', 'index');
+    Route::get('/tempat/{id}', [TempatController::class, 'show']);
 });
