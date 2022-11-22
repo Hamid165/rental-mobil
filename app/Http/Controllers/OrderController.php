@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use Illuminate\Http\Request;
-use App\Models\mobil;
 use Illuminate\Support\Facades\Validator;
 
-class MobilController extends Controller
+class OrderController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,14 +15,14 @@ class MobilController extends Controller
      */
     public function index()
     {
-        $mobil = mobil::all();
+        $mobil = Order::all();
 
         return response()->json([
-            "message"=>"load data success",
-            "data"=> $mobil
-        ],200);
+            "message" => "Data Order Success",
+            "data" => $mobil
+        ], 200);
     }
-    
+
 
     /**
      * Show the form for creating a new resource.
@@ -43,31 +43,42 @@ class MobilController extends Controller
     public function store(Request $request)
     {
         $message = [
-            "nama_mobil" => "Masukan Nama Mobil",
-            "warna" => "Masukan Warna Mobil",
-            "harga_rental" => "Masukan Harga Rental",
-            "status" => "Masukan Status Kendaraan",
+            "mobil_id" => "Masukan mobil id",
+            "user_id" => "Masukan user id",
+            "nama_tempat" => "Masukan Nama Tempat",
+            "kecamatan" => "Masukan Nama Kecamatan",
+            "kabupaten" => "Masukan Nama Kabupaten",
+            "tanggal_ambil" => "Masukan Tanggal Ambil",
+            "tanggal_kembali" => "Masukan Tanggal Kembali",
+            "waktu_ambil" => "Masukan Waktu Ambil",
+            "waktu_kembali" => "Masukan Waktu Kembali",
+            
             // "publisher" => "Masukan Judul",
             // "date_of_issue" => "Masukan Judul"
         ];
-        $validasi = Validator::make($request->all(),[
-            "nama_mobil" => "required",
-            "warna" => "required",
-            "harga_rental" => "required",
-            "status" => "required",
+        $validasi = Validator::make($request->all(), [
+            "mobil_id" => "required",
+            "user_id" => "required",
+            "nama_tempat" => "required",
+            "kecamatan" => "required",
+            "kabupaten" => "required",
+            "tanggal_ambil" => "required",
+            "tanggal_kembali" => "required",
+            "waktu_ambil" => "required",
+            "waktu_kembali" => "required",
             // "publisher" => "required",
             // "date_of_issue" => "required"
         ], $message);
-        if ($validasi ->fails()) {
-            return $validasi -> errors();
+        if ($validasi->fails()) {
+            return $validasi->errors();
         }
-        $mobil1 = mobil::create($validasi->validate());
+        $mobil1 = Order::create($validasi->validate());
         $mobil1->save();
 
         return response()->json([
-            "message"=>"load data success",
-            "data"=> $mobil1
-        ],201);
+            "message" => "load data success",
+            "data" => $mobil1
+        ], 201);
     }
 
     /**
@@ -78,10 +89,10 @@ class MobilController extends Controller
      */
     public function show($id)
     {
-        $mobil2 = mobil::find($id);
-        if($mobil2){
+        $mobil2 = Order::find($id);
+        if ($mobil2) {
             return $mobil2;
-        }else{
+        } else {
             return ["message" => "Data tidak ditemukan"];
         }
     }
@@ -106,7 +117,7 @@ class MobilController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $mobil2 = mobil::findOrFail($id);
+        $mobil2 = Order::findOrFail($id);
         $mobil2->update($request->all());
         $mobil2->save();
 
@@ -121,13 +132,12 @@ class MobilController extends Controller
      */
     public function destroy($id)
     {
-        $delmobil = mobil::find($id);
-        if($delmobil){
+        $delmobil = Order::find($id);
+        if ($delmobil) {
             $delmobil->delete();
             return ["message" => "Delete Berhasil"];
-        }else{
-            return ["message" => "Delete tidak ditemukan"];
+        } else {
+            return ["message" => "Data tidak ditemukan"];
         }
     }
 }
-

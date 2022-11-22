@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\TanggalWaktu;
 use Illuminate\Http\Request;
-use App\Models\mobil;
 use Illuminate\Support\Facades\Validator;
 
-class MobilController extends Controller
+class TaWaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,11 +15,11 @@ class MobilController extends Controller
      */
     public function index()
     {
-        $mobil = mobil::all();
+        $tawa = TanggalWaktu::all();
 
         return response()->json([
             "message"=>"load data success",
-            "data"=> $mobil
+            "data"=> $tawa
         ],200);
     }
     
@@ -43,30 +43,30 @@ class MobilController extends Controller
     public function store(Request $request)
     {
         $message = [
-            "nama_mobil" => "Masukan Nama Mobil",
-            "warna" => "Masukan Warna Mobil",
-            "harga_rental" => "Masukan Harga Rental",
-            "status" => "Masukan Status Kendaraan",
+            "tanggal_ambil" =>'Masukan Tanggal Ambil',
+            "tanggal_kembali" => "Masukan Tanggal Kembali",
+            "waktu_ambil" => "Masukan Warna Mobil1",
+            "waktu_kembali" => "Masukan Harga Rental",
             // "publisher" => "Masukan Judul",
             // "date_of_issue" => "Masukan Judul"
         ];
         $validasi = Validator::make($request->all(),[
-            "nama_mobil" => "required",
-            "warna" => "required",
-            "harga_rental" => "required",
-            "status" => "required",
+            "tanggal_ambil" =>"required",
+            "tanggal_kembali" => "required",
+            "waktu_ambil" => "required",
+            "waktu_kembali" => "required",
             // "publisher" => "required",
             // "date_of_issue" => "required"
         ], $message);
         if ($validasi ->fails()) {
             return $validasi -> errors();
         }
-        $mobil1 = mobil::create($validasi->validate());
-        $mobil1->save();
+        $tawa = TanggalWaktu::create($validasi->validate());
+        $tawa->save();
 
         return response()->json([
             "message"=>"load data success",
-            "data"=> $mobil1
+            "data"=> $tawa
         ],201);
     }
 
@@ -78,9 +78,9 @@ class MobilController extends Controller
      */
     public function show($id)
     {
-        $mobil2 = mobil::find($id);
-        if($mobil2){
-            return $mobil2;
+        $tawa = TanggalWaktu::find($id);
+        if($tawa){
+            return $tawa;
         }else{
             return ["message" => "Data tidak ditemukan"];
         }
@@ -106,11 +106,11 @@ class MobilController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $mobil2 = mobil::findOrFail($id);
-        $mobil2->update($request->all());
-        $mobil2->save();
+        $tawa = TanggalWaktu::findOrFail($id);
+        $tawa->update($request->all());
+        $tawa->save();
 
-        return $mobil2;
+        return $tawa;
     }
 
     /**
@@ -121,13 +121,12 @@ class MobilController extends Controller
      */
     public function destroy($id)
     {
-        $delmobil = mobil::find($id);
-        if($delmobil){
-            $delmobil->delete();
+        $tawa = TanggalWaktu::find($id);
+        if($tawa){
+            $tawa->delete();
             return ["message" => "Delete Berhasil"];
         }else{
-            return ["message" => "Delete tidak ditemukan"];
+            return ["message" => "Data tidak ditemukan"];
         }
     }
 }
-
