@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TaWaController;
 use App\Http\Controllers\MobilController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\AlamatController;
 use App\Http\Controllers\TempatController;
 
 /*
@@ -29,12 +30,13 @@ Route::get('/mobil', [MobilController::class, 'index']);
 Route::get('/tempat', [TempatController::class, 'index']);
 Route::get('/tanggalwaktu', [TaWaController::class, 'index']);
 
-
-
+Route::get('/alamat', [AlamatController::class, 'index']);
+Route::put('/alamat/{id}', [AlamatController::class, 'update']);
 
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::resource('/order', OrderController::class);
+    Route::post('/alamat', [AlamatController::class, 'store'])->middleware('user');
     Route::post('/logout', [AuthController::class, 'logout']);
     //khusus for admin
     Route::middleware('admin')->group(function () {
@@ -44,5 +46,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/tempat/{id}', [TempatController::class, 'show']);
         Route::resource('/tanggalwaktu', TaWaController::class)->except('create', 'edit', 'show', 'index');
         Route::get('/tanggalwaktu/{id}', [TaWaController::class, 'show']);
+        Route::resource('/alamat', AlamatController::class)->except('create', 'edit', 'show', 'index', 'store');
+        Route::get('/alamat/{id}', [AlamatController::class, 'show']);
     });
 });
