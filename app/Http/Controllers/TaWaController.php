@@ -46,7 +46,7 @@ class TaWaController extends Controller
             "tanggal_ambil" =>'Masukan Tanggal Ambil',
             "tanggal_kembali" => "Masukan Tanggal Kembali",
             "waktu_ambil" => "Masukan Warna Mobil1",
-            "waktu_kembali" => "Masukan Harga Rental",
+            "waktu_kembali" => "Masukan Waktu Kembali",
             // "publisher" => "Masukan Judul",
             // "date_of_issue" => "Masukan Judul"
         ];
