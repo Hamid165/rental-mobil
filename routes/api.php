@@ -33,7 +33,6 @@ Route::get('/tanggalwaktu', [TaWaController::class, 'index']);
 Route::get('/alamat', [AlamatController::class, 'index']);
 Route::put('/alamat/{id}', [AlamatController::class, 'update']);
 
-
 Route::middleware('auth:sanctum')->group(function () {
     Route::resource('/order', OrderController::class);
     Route::post('/alamat', [AlamatController::class, 'store'])->middleware('user');
